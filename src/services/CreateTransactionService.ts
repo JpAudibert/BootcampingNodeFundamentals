@@ -17,7 +17,7 @@ class CreateTransactionService {
   public execute({ title, type, value }: RequestDTO): Transaction {
     const balance = this.transactionsRepository.getBalance();
 
-    if (value > balance.total) {
+    if (balance.total - value < 0 && type === 'outcome') {
       throw Error(
         'You cannot transact a value greater than your total balance',
       );
